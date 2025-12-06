@@ -60,9 +60,13 @@ router.get("/:tenantId/summary", authMiddleware, async (req: AuthRequest, res) =
       avgOrderValue: parseFloat(avgOrderValue.toFixed(2)),
       recentOrders,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching summary:", error);
-    res.status(500).json({ error: "Failed to fetch summary" });
+    res.status(500).json({ 
+      error: "Failed to fetch summary",
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 });
 
@@ -202,9 +206,13 @@ router.get("/:tenantId/revenue-trend", authMiddleware, async (req: AuthRequest, 
     }, {});
 
     res.json(Object.values(revenueByDate));
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching revenue trend:", error);
-    res.status(500).json({ error: "Failed to fetch revenue trend" });
+    res.status(500).json({ 
+      error: "Failed to fetch revenue trend",
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 });
 

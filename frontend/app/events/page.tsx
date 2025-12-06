@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/auth";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Navbar } from "@/components/layout/Navbar";
 
 interface Event {
   id: string;
@@ -139,8 +141,12 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="min-h-screen dark-bg p-8">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="flex min-h-screen dark-bg">
+      <Sidebar />
+      <main className="flex-1">
+        <Navbar />
+        <div className="p-8">
+          <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
@@ -368,8 +374,9 @@ export default function EventsPage() {
               ))}
             </div>
           )}
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

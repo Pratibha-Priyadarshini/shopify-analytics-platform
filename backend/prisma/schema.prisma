@@ -8,49 +8,92 @@ datasource db {
 }
 
 model Tenant {
-  id        String   @id @default(uuid())
-  name      String
-  apiKey    String
-  apiSecret String
-  createdAt DateTime @default(now())
-  customers Customer[]
-  orders    Order[]
-  products  Product[]
+  id            String   @id @default(uuid())
+  name          String
+  shopifyDomain String   @unique
+  accessToken   String
+  userId        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastSyncAt    DateTime?
+  user          User     @relation(fields: [userId], references: [id])
+  customers     Customer[]
+  orders        Order[]
+  products      Product[]
+  events        Event[]
 }
 
 model Customer {
-  id        String   @id @default(uuid())
-  tenantId  String
-  email     String
-  name      String
-  totalSpend Float   @default(0)
-  createdAt DateTime @default(now())
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  orders    Order[]
+  id             String   @id @default(uuid())
+  tenantId       String
+  shopifyId      String
+  email          String
+  firstName      String?
+  lastName       String?
+  totalSpend     Float    @default(0)
+  ordersCount    Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  orders         Order[]
+  
+  @@unique([tenantId, shopifyId])
+  @@index([tenantId, totalSpend])
 }
 
 model Order {
-  id        String   @id @default(uuid())
-  tenantId  String
-  customerId String
-  totalAmount Float
-  createdAt DateTime @default(now())
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  customer  Customer @relation(fields: [customerId], references: [id])
+  id              String   @id @default(uuid())
+  tenantId        String
+  customerId      String
+  shopifyId       String
+  orderNumber     String
+  totalAmount     Float
+  currency        String   @default("USD")
+  financialStatus String?
+  fulfillmentStatus String?
+  createdAt       DateTime
+  updatedAt       DateTime @updatedAt
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customer        Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  
+  @@unique([tenantId, shopifyId])
+  @@index([tenantId, createdAt])
 }
 
 model Product {
-  id        String   @id @default(uuid())
-  tenantId  String
-  name      String
-  price     Float
-  createdAt DateTime @default(now())
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  id          String   @id @default(uuid())
+  tenantId    String
+  shopifyId   String
+  title       String
+  price       Float
+  inventory   Int      @default(0)
+  status      String   @default("active")
+  createdAt   DateTime
+  updatedAt   DateTime @updatedAt
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  @@unique([tenantId, shopifyId])
+  @@index([tenantId, status])
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  tenantId    String
+  eventType   String
+  customerId  String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  @@index([tenantId, eventType, createdAt])
 }
 
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String
+  name      String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tenants   Tenant[]
 }

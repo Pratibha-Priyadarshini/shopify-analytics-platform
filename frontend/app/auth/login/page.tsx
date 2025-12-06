@@ -4,18 +4,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/providers/ToastProvider";
+import { setToken, setUser } from "@/lib/auth";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const toast = useToast();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (email === "admin@example.com" && password === "password") {
-      router.push("/dashboard");
+      // Store token and user info using auth functions
+      setToken("demo-token");
+      setUser({
+        name: "Admin User",
+        email: email
+      });
+      
+      toast.success("Login successful!");
+      setTimeout(() => router.push("/dashboard"), 500);
     } else {
-      alert("Invalid credentials!");
+      toast.error("Invalid credentials!");
     }
   };
 

@@ -1,0 +1,122 @@
+# 🚀 Quick Deployment Commands
+
+## STEP 1: PUSH TO GITHUB
+# ================================
+
+# 1. Remove sensitive files (if tracked)
+git rm --cached backend/.env
+git rm --cached frontend/.env.local
+
+# 2. Check git status
+git status
+
+# 3. Add all files
+git add .
+
+# 4. Commit
+git commit -m "Final submission: Xeno FDE Assignment 2025"
+
+# 5. Add remote (REPLACE YOUR_USERNAME)
+git remote add origin https://github.com/YOUR_USERNAME/xeno-fde-assignment.git
+
+# 6. Push to GitHub
+git branch -M main
+git push -u origin main
+
+
+## STEP 2: GENERATE SECRETS
+# ================================
+
+# Generate JWT_SECRET
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+# Generate SHOPIFY_WEBHOOK_SECRET
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+
+## STEP 3: RENDER ENVIRONMENT VARIABLES
+# ================================
+# Copy these to Render Dashboard → Environment Variables
+
+DATABASE_URL=[Paste from Render PostgreSQL Internal URL]
+JWT_SECRET=[Paste generated secret from above]
+SHOPIFY_WEBHOOK_SECRET=[Paste generated secret from above]
+BACKEND_URL=https://xeno-fde-backend.onrender.com/api
+FRONTEND_URL=[Will add after Vercel deployment]
+GEMINI_API_KEY=AIzaSyAeAyWzLDY0l1iOKf_Sz_ehLfPphYGP_AM
+NODE_ENV=production
+ENABLE_SCHEDULER=true
+PORT=4000
+
+
+## STEP 4: RENDER BUILD COMMANDS
+# ================================
+
+# Build Command:
+npm install && npm run build && npx prisma generate
+
+# Start Command:
+npm start
+
+
+## STEP 5: RUN MIGRATIONS ON RENDER
+# ================================
+# In Render Shell tab:
+
+npx prisma migrate deploy
+
+
+## STEP 6: CREATE TEST USER ON RENDER
+# ================================
+# In Render Shell tab (run as single command):
+
+npx ts-node -e "const { PrismaClient } = require('@prisma/client'); const bcrypt = require('bcryptjs'); const prisma = new PrismaClient(); async function createUser() { const hashedPassword = await bcrypt.hash('password123', 10); const user = await prisma.user.create({ data: { email: 'test@example.com', password: hashedPassword, name: 'Test User' } }); console.log('User created:', user.email); await prisma.\$disconnect(); } createUser();"
+
+
+## STEP 7: VERCEL ENVIRONMENT VARIABLE
+# ================================
+# Copy this to Vercel Dashboard → Environment Variables
+
+NEXT_PUBLIC_API_URL=https://xeno-fde-backend.onrender.com/api
+
+
+## STEP 8: UPDATE BACKEND FRONTEND_URL
+# ================================
+# After Vercel deployment, update in Render:
+
+FRONTEND_URL=https://xeno-fde-assignment.vercel.app
+
+
+## STEP 9: TEST DEPLOYMENT
+# ================================
+
+# Test backend health
+curl https://xeno-fde-backend.onrender.com/health
+
+# Test frontend
+# Visit: https://xeno-fde-assignment.vercel.app
+# Login: test@example.com / password123
+
+
+## STEP 10: REGISTER WEBHOOKS (OPTIONAL)
+# ================================
+
+# Get JWT token from browser (DevTools → Application → localStorage)
+# Get tenant ID from dashboard URL or API
+
+curl -X POST "https://xeno-fde-backend.onrender.com/api/tenants/TENANT_ID/webhooks/register" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+
+## ✅ DEPLOYMENT COMPLETE!
+# ================================
+
+Your URLs:
+- Frontend: https://xeno-fde-assignment.vercel.app
+- Backend: https://xeno-fde-backend.onrender.com/api
+
+Test Credentials:
+- Email: test@example.com
+- Password: password123
+
+Next: Record demo video and update README!

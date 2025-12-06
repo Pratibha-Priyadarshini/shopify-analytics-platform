@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: nexus-analytics-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build && npx prisma generate
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: nexus-analytics-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ENABLE_SCHEDULER
+        value: true
+
+databases:
+  - name: nexus-analytics-db
+    databaseName: nexus_analytics
+    user: nexus_user
+    plan: free

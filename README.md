@@ -3,8 +3,43 @@
 > **Xeno FDE Internship Assignment 2025**  
 > A production-ready, AI-powered analytics platform for Shopify stores with multi-tenant support, real-time data synchronization, and intelligent business insights.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-success)](#-deployment)
-[![Backend API](https://img.shields.io/badge/API-Live-blue)](#-deployment)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://shopify-analytics-platform-gamma.vercel.app)
+[![Backend API](https://img.shields.io/badge/API-Live-blue)](https://shopify-analytics-backend-l14y.onrender.com)
+
+---
+
+## 🚀 Quick Start
+
+### Try the Live Demo
+1. Visit: https://shopify-analytics-platform-gamma.vercel.app
+2. Sign up with your email or use test account
+3. Connect your Shopify store (or use the demo store)
+4. Click "Sync Now" to import data
+5. Explore analytics, AI insights, and custom events!
+
+### Local Development
+```bash
+# Clone repository
+git clone https://github.com/Pratibha-Priyadarshini/shopify-analytics-platform.git
+cd shopify-analytics-platform
+
+# Backend setup
+cd backend
+npm install
+cp .env.example .env
+# Edit .env with your credentials
+npm run migrate
+npm run dev
+
+# Frontend setup (in new terminal)
+cd frontend
+npm install
+cp .env.local.example .env.local
+# Edit .env.local
+npm run dev
+```
+
+Visit `http://localhost:3000` to see the app!
 
 ---
 
@@ -268,7 +303,7 @@ For detailed instructions, see [WEBHOOK_SETUP.md](./WEBHOOK_SETUP.md)
 ### Base URL
 ```
 Development: http://localhost:4000/api
-Production: https://your-backend.render.com/api
+Production: https://shopify-analytics-backend-l14y.onrender.com/api
 ```
 
 ### Authentication Endpoints
@@ -529,6 +564,12 @@ User (1) ──────< (N) Tenant
 
 ## 🚢 Deployment
 
+### Live URLs
+
+- **Frontend**: https://shopify-analytics-platform-gamma.vercel.app
+- **Backend API**: https://shopify-analytics-backend-l14y.onrender.com/api
+- **Database**: Supabase PostgreSQL (managed)
+
 ### Backend Deployment (Render)
 
 1. **Create PostgreSQL Database**
@@ -627,20 +668,37 @@ User (1) ──────< (N) Tenant
 
 ## 🔮 Next Steps to Production
 
+### Completed Features ✅
+
+1. **Core Functionality**
+   - ✅ Multi-tenant architecture with tenant isolation
+   - ✅ Shopify data ingestion (customers, orders, products)
+   - ✅ Automated scheduler (6-hour sync)
+   - ✅ Manual sync via UI
+   - ✅ JWT authentication
+   - ✅ Real-time analytics dashboard
+   - ✅ AI-powered insights with Google Gemini
+   - ✅ Smart recommendations system
+   - ✅ Webhook integration for real-time events
+   - ✅ Cart abandonment tracking
+   - ✅ Checkout funnel analytics
+   - ✅ Custom events system
+   - ✅ Production deployment (Vercel + Render + Supabase)
+
 ### Immediate (Week 1-2)
 
 1. **Security Enhancements**
    - [ ] Rate limiting on API endpoints
    - [ ] Input validation and sanitization
-   - [ ] SQL injection prevention (Prisma handles this)
+   - [x] SQL injection prevention (Prisma handles this)
    - [ ] XSS protection
-   - [ ] CORS configuration refinement
+   - [x] CORS configuration
 
 2. **Error Handling**
-   - [ ] Global error handler
+   - [x] Basic error handling
    - [ ] Structured logging (Winston/Pino)
    - [ ] Error tracking (Sentry)
-   - [ ] User-friendly error messages
+   - [x] User-friendly error messages
 
 3. **Testing**
    - [ ] Unit tests (Jest)
@@ -718,26 +776,38 @@ User (1) ──────< (N) Tenant
 
 ---
 
-## 🎥 Demo Video
+## 🎥 Demo & Screenshots
 
-**[Add your demo video link here]** (Max 7 minutes)
+### Live Demo
+🔗 **[Try the Live Application](https://shopify-analytics-platform-gamma.vercel.app)**
 
-**Topics to Cover:**
-- Features walkthrough
-- Architecture explanation
-- Code structure
-- Trade-offs and decisions
-- Live demonstration
+**Test Credentials:**
+- Email: `kookie@gmail.com`
+- Password: `[Your password]`
+
+**Demo Shopify Store:**
+- Store: `kookiepookie.myshopify.com`
+- Contains sample products, customers, and orders for testing
+
+### Key Features Demo
+1. **Dashboard**: Real-time metrics, revenue trends, customer growth
+2. **AI Insights**: Gemini-powered predictions and recommendations
+3. **Custom Events**: Cart abandonment tracking, checkout funnel analytics
+4. **Multi-tenant**: Support for multiple Shopify stores per user
+5. **Webhooks**: Real-time event tracking and notifications
 
 ---
 
 ## 📝 Known Limitations
 
 1. **Shopify API Rate Limits**: 2 requests/second (handled with delays)
-2. **Gemini API Permissions**: Some features require merchant approval for write scopes
-3. **Data Sync Delay**: Up to 6 hours for automatic sync (manual sync available)
-4. **Single Currency**: Currently supports USD only
-5. **No Real-time Updates**: Uses polling instead of websockets
+2. **Data Sync Delay**: Up to 6 hours for automatic sync (manual sync available)
+3. **Single Currency**: Currently supports USD only
+4. **Webhook Requirements**: Requires publicly accessible backend URL (not localhost)
+5. **Free Tier Limitations**: 
+   - Render: Backend may sleep after 15 minutes of inactivity
+   - Supabase: Database connection limits on free tier
+   - Gemini API: Rate limits on free tier
 
 ---
 
@@ -747,8 +817,8 @@ User (1) ──────< (N) Tenant
 FDE Internship Candidate - Xeno 2025
 
 - Email: pratibhapriyadarshini10@gmail.com
-- GitHub: [Add your GitHub username]
-- LinkedIn: [Add your LinkedIn profile]
+- GitHub: [@Pratibha-Priyadarshini](https://github.com/Pratibha-Priyadarshini)
+- Project Repository: [shopify-analytics-platform](https://github.com/Pratibha-Priyadarshini/shopify-analytics-platform)
 
 ---
 

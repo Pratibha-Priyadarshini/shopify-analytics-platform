@@ -190,7 +190,7 @@ Visit `http://localhost:3000` to see the app!
 - **Deployment**: 
   - Frontend: Vercel
   - Backend: Render
-  - Database: Render PostgreSQL
+  - Database: Supabase PostgreSQL
 - **Environment**: dotenv
 
 ---
@@ -769,14 +769,7 @@ User (1) ──────< (N) Tenant
 
 ---
 
-## 📚 Additional Documentation
-
-- [Webhook Setup Guide](./WEBHOOK_SETUP.md) - Configure Shopify webhooks for real-time events
-- [Deployment Guide](./DEPLOYMENT.md) - Production deployment instructions
-
----
-
-## 🎥 Demo & Screenshots
+## 🎥 Demo
 
 ### Live Demo
 🔗 **[Try the Live Application](https://shopify-analytics-platform-gamma.vercel.app)**
@@ -803,8 +796,7 @@ User (1) ──────< (N) Tenant
 1. **Shopify API Rate Limits**: 2 requests/second (handled with delays)
 2. **Data Sync Delay**: Up to 6 hours for automatic sync (manual sync available)
 3. **Single Currency**: Currently supports USD only
-4. **Webhook Requirements**: Requires publicly accessible backend URL (not localhost)
-5. **Free Tier Limitations**: 
+4. **Free Tier Limitations**: 
    - Render: Backend may sleep after 15 minutes of inactivity
    - Supabase: Database connection limits on free tier
    - Gemini API: Rate limits on free tier
@@ -814,7 +806,6 @@ User (1) ──────< (N) Tenant
 ## 👨‍💻 Author
 
 **Pratibha Priyadarshini**  
-FDE Internship Candidate - Xeno 2025
 
 - Email: pratibhapriyadarshini10@gmail.com
 - GitHub: [@Pratibha-Priyadarshini](https://github.com/Pratibha-Priyadarshini)
